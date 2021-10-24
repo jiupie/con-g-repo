@@ -1,0 +1,29 @@
+server:
+  port: 8091
+spring:
+  application:
+    name: autodeliver-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://cloudEurekaServerA:8761/eureka,http://cloudEurekaServerB:8762/eureka
+  instance:
+    #使⽤ip注册，否则会使⽤主机名注册了（此处考虑到对⽼版本的兼容，新版本经过实验都是ip）
+    prefer-ip-address: true #⾃定义实例显示格式，加上版本号，便于多版本管理，注意是ip-address，早期版本是ipAddress
+    instance-id: ${spring.cloud.client.ipaddress}:${spring.application.name}:${server.port}:@project.version@
+feign:
+  client:
+    config:
+      resume-service:
+        connectTimeout: 1000
+        readTimeout: 1000
+  compression:
+    request:
+      enabled: true #开启后 mime-types和min-request-size默认就是text/html,application/xml,application/json和2048
+      mime-types: text/html,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+logging:
+  level:
+    com.wl.autodeliver.service.ResumeServiceFeignClient: DEBUG

@@ -27,4 +27,4 @@ feign:
 logging:
   level:
     com.wl.autodeliver.service.ResumeServiceFeignClient: DEBUG
-name: testsss
+name: sssss
